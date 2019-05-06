@@ -1,6 +1,6 @@
 
 import { NativeModules } from 'react-native';
 
-const { RNPermission } = NativeModules;
+const  Permission = NativeModules.RNPermission;
 
-export default RNPermission;
+export default Permission;
