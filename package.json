@@ -1,6 +1,6 @@
 {
   "name": "react-native-lk-permission",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "android 权限",
   "main": "index.js",
   "scripts": {
