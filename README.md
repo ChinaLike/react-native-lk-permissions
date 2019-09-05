@@ -22,13 +22,6 @@
 
 add to MainActivity.java for Android
 
-#### iOS
-
-1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
-2. Go to `node_modules` ➜ `react-native-permission` and add `RNPermission.xcodeproj`
-3. In XCode, in the project navigator, select your project. Add `libRNPermission.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
-4. Run your project (`Cmd+R`)<
-
 #### Android
 
 1. Open up `android/app/src/main/java/[...]/MainActivity.java`
@@ -43,7 +36,7 @@ add to MainActivity.java for Android
    ```
 3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
    ```
-     compile project(':react-native-permission')
+     implementation project(':react-native-permission')
    ```
 
 ## Usage
