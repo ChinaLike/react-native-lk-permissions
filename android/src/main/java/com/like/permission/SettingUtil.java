@@ -72,6 +72,7 @@ public class SettingUtil {
     private void goLGMainager() {
         try {
             Intent intent = new Intent(packageName);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             ComponentName comp = new ComponentName("com.android.settings", "com.android.settings.Settings$AccessLockSummaryActivity");
             intent.setComponent(comp);
             mContext.startActivity(intent);
@@ -87,6 +88,7 @@ public class SettingUtil {
             Intent intent = new Intent(packageName);
             ComponentName comp = new ComponentName("com.sonymobile.cta", "com.sonymobile.cta.SomcCTAMainActivity");
             intent.setComponent(comp);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(intent);
         } catch (Exception e) {
             Toast.makeText(mContext, "跳转失败", Toast.LENGTH_LONG).show();
@@ -98,9 +100,9 @@ public class SettingUtil {
     private void goHuaWeiMainager() {
         try {
             Intent intent = new Intent(packageName);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             ComponentName comp = new ComponentName("com.huawei.systemmanager", "com.huawei.permissionmanager.ui.MainActivity");
             intent.setComponent(comp);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(intent);
         } catch (Exception e) {
             Toast.makeText(mContext, "跳转失败", Toast.LENGTH_LONG).show();
@@ -146,6 +148,7 @@ public class SettingUtil {
         } else {
             goIntentSetting();
         }
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
 
@@ -154,6 +157,7 @@ public class SettingUtil {
             Intent intent = new Intent("com.meizu.safe.security.SHOW_APPSEC");
             intent.addCategory(Intent.CATEGORY_DEFAULT);
             intent.putExtra("packageName", packageName);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(intent);
         } catch (ActivityNotFoundException localActivityNotFoundException) {
             localActivityNotFoundException.printStackTrace();
@@ -171,6 +175,7 @@ public class SettingUtil {
         Uri uri = Uri.fromParts("package", mContext.getPackageName(), null);
         intent.setData(uri);
         try {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
@@ -253,6 +258,7 @@ public class SettingUtil {
             ComponentName cn = new ComponentName(packageName, className);
             intent.setComponent(cn);
             try {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
             } catch (Exception e) {
                 goIntentSetting();
