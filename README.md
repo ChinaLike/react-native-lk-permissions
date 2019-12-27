@@ -23,21 +23,21 @@
     project(':react-native-permission').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-permission/android')
     ```
   + Insert the following lines inside the dependencies block in `android/app/build.gradle`:
-   ```
-     implementation project(':react-native-permission')
-   ```
+    ```
+    implementation project(':react-native-permission')
+    ```
 
 - 注意（任何 ReactNative 都需要配置）
 
     在`MainActivity.java`中引入`import com.like.permission.PermissionUtil;`,并添加如下代码
 
-        ```
-            @Override
-            public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-                PermissionUtil.getInstance().onRequestPermissionsResult(requestCode,permissions,grantResults);
-            }
-        ```
+  ```javascript
+  @Override
+  public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+      super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+      PermissionUtil.getInstance().onRequestPermissionsResult(requestCode,permissions,grantResults);
+  }
+  ```
 
 ## API
 
