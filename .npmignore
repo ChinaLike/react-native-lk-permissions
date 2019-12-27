@@ -46,3 +46,5 @@ buck-out/
 
 # Others
 examples/
+.gitattributes
+android/build/
