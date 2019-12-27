@@ -77,7 +77,7 @@ public class SettingUtil {
             intent.setComponent(comp);
             mContext.startActivity(intent);
         } catch (Exception e) {
-            Toast.makeText(mContext, "跳转失败", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "进入设置页面失败，请手动设置", Toast.LENGTH_LONG).show();
             e.printStackTrace();
             goIntentSetting();
         }
@@ -91,7 +91,7 @@ public class SettingUtil {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(intent);
         } catch (Exception e) {
-            Toast.makeText(mContext, "跳转失败", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "进入设置页面失败，请手动设置", Toast.LENGTH_LONG).show();
             e.printStackTrace();
             goIntentSetting();
         }
@@ -105,7 +105,7 @@ public class SettingUtil {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             mContext.startActivity(intent);
         } catch (Exception e) {
-            Toast.makeText(mContext, "跳转失败", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "进入设置页面失败，请手动设置", Toast.LENGTH_LONG).show();
             e.printStackTrace();
             goIntentSetting();
         }
@@ -202,25 +202,6 @@ public class SettingUtil {
         doStartApplicationWithPackageName("com.bairenkeji.icaller");
      /*   Intent openQQ = getPackageManager().getLaunchIntentForPackage("com.vivo.securedaemonservice");
         startActivity(openQQ);*/
-    }
-
-    /**
-     * 此方法在手机各个机型设置中已经失效
-     *
-     * @return
-     */
-    private Intent getAppDetailSettingIntent() {
-        Intent localIntent = new Intent();
-        localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        if (Build.VERSION.SDK_INT >= 9) {
-            localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
-            localIntent.setData(Uri.fromParts("package", mContext.getPackageName(), null));
-        } else if (Build.VERSION.SDK_INT <= 8) {
-            localIntent.setAction(Intent.ACTION_VIEW);
-            localIntent.setClassName("com.android.settings", "com.android.settings.InstalledAppDetails");
-            localIntent.putExtra("com.android.settings.ApplicationPkgName", mContext.getPackageName());
-        }
-        return localIntent;
     }
 
     private void doStartApplicationWithPackageName(String packagename) {

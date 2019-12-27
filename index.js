@@ -9,7 +9,9 @@ checkSelfPermission = (permission, callback) => {
   if (Platform.OS == 'android') {
     RNPermission.checkSelfPermission(permission, callback)
   } else {
-    callback(true)
+    let obj = {}
+    obj[`${permission}`] = true
+    callback(obj)
   }
 }
 
@@ -21,10 +23,15 @@ checkSelfPermissions = (permissions, callback) => {
     if (Platform.OS == 'android') {
       RNPermission.checkSelfPermissions(permissions, callback)
     } else {
-      callback(true)
+      let result = {}
+      for (let index = 0; index < permissions.length; index++) {
+        const element = permissions[index];
+        result[`${element}`] = true
+      }
+      callback && callback(result)
     }
   } else {
-    alert('请传递多个权限（以数组形式）')
+    throw("Parameter format is incorrect, please check again!")
   }
 }
 
@@ -46,7 +53,9 @@ requestPermission = (permission, callback) => {
   if (Platform.OS == 'android') {
     RNPermission.requestPermission(permission, callback)
   } else {
-    callback(true)
+    let obj = {}
+    obj[`${permission}`] = true
+    callback(obj)
   }
 }
 
@@ -58,20 +67,44 @@ requestPermissions = (permissions, callback) => {
     if (Platform.OS == 'android') {
       RNPermission.requestPermissions(permissions, callback)
     } else {
-      callback(true)
+      let result = {}
+      for (let index = 0; index < permissions.length; index++) {
+        const element = permissions[index];
+        result[`${element}`] = true
+      }
+      callback && callback(result)
     }
   } else {
-    alert('请传递多个权限（以数组形式）')
+    throw("Parameter format is incorrect, please check again!")
+  }
+}
+
+/**
+ * 查看悬浮窗状态
+ */
+checkFloatWindowPermissions = (callback)=>{
+  if (Platform.OS == 'android') {
+    RNPermission.checkFloatWindowPermissions(callback)
+  }else{
+    callback && callback(true)
+  }
+}
+
+/**
+ * 打开悬浮窗设置
+ */
+openFloatWindowSetting = ()=>{
+  if (Platform.OS == 'android') {
+    RNPermission.openFloatWindowSetting()
   }
 }
 
 /**
  * 打开系统设置界面
  */
-appSetting = () => {
+openSetting = () => {
   if (Platform.OS == 'android') {
-    RNPermission.appSetting()
-  } else {
+    RNPermission.openSetting()
   }
 }
 
@@ -82,7 +115,9 @@ const Permission = {
   shouldShowRequestPermissionRationale,
   requestPermission,
   requestPermissions,
-  appSetting
+  checkFloatWindowPermissions,
+  openFloatWindowSetting,
+  openSetting
 }
 
 export default Permission

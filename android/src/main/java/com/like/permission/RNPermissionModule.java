@@ -3,13 +3,14 @@ package com.like.permission;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.os.Build;
 
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableNativeMap;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -78,13 +79,11 @@ public class RNPermissionModule extends ReactContextBaseJavaModule implements On
      * @param callback
      */
     @ReactMethod
-    public void checkSelfPermission(String permission, final Callback callback) {
-        PermissionUtil.checkSelfPermission(reactContext, permission, new OnPermissionListener() {
-            @Override
-            public void status(boolean status) {
-                callback.invoke(status);
-            }
-        });
+    public void checkSelfPermission(String permission, Callback callback) {
+        boolean hasPer = PermissionUtil.checkSelfPermission(reactContext, permission);
+        WritableMap writableMap = new WritableNativeMap();
+        writableMap.putBoolean(permission, hasPer);
+        callback.invoke(writableMap);
     }
 
     /**
@@ -95,12 +94,13 @@ public class RNPermissionModule extends ReactContextBaseJavaModule implements On
      */
     @ReactMethod
     public void checkSelfPermissions(ReadableArray permissions, final Callback callback) {
-        PermissionUtil.checkSelfPermissions(reactContext, arrayToString(permissions), new OnPermissionListener() {
-            @Override
-            public void status(boolean status) {
-                callback.invoke(status);
-            }
-        });
+        String[] pers = arrayToString(permissions);
+        WritableMap writableMap = new WritableNativeMap();
+        for (String per : pers) {
+            boolean hasPer = PermissionUtil.checkSelfPermission(reactContext, per);
+            writableMap.putBoolean(per, hasPer);
+        }
+        callback.invoke(writableMap);
     }
 
     /**
@@ -141,20 +141,42 @@ public class RNPermissionModule extends ReactContextBaseJavaModule implements On
      * 打开系统设置界面
      */
     @ReactMethod
-    public void appSetting() {
+    public void openSetting() {
         SettingUtil settingUtil = new SettingUtil();
         settingUtil.jumpPermissionPage(reactContext);
     }
 
     @Override
     public void result(int requestCode, String[] permissions, int[] grantResults) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && mCallback != null && requestCode == REQUEST_CODE) {
-            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                mCallback.invoke(false);
-            } else {
-                mCallback.invoke(true);
+        if (mCallback != null && requestCode == REQUEST_CODE) {
+            WritableMap writableMap = new WritableNativeMap();
+            for (int i = 0; i < permissions.length; i++) {
+                writableMap.putBoolean(permissions[i], grantResults[i] == PackageManager.PERMISSION_GRANTED ? true : false);
             }
+            mCallback.invoke(writableMap);
         }
+    }
+
+    /**
+     * 检测悬浮窗权限
+     *
+     * @param callback
+     */
+    @ReactMethod
+    public void checkFloatWindowPermissions(Callback callback) {
+        try {
+            callback.invoke(FloatWindowManager.getInstance().checkPermission(reactContext));
+        } catch (Exception e) {
+            callback.invoke(false);
+        }
+    }
+
+    /**
+     * 打开悬浮窗设置
+     */
+    @ReactMethod
+    public void openFloatWindowSetting(){
+        FloatWindowManager.getInstance().applyPermission(reactContext);
     }
 
     /**
@@ -164,6 +186,9 @@ public class RNPermissionModule extends ReactContextBaseJavaModule implements On
      * @return
      */
     private String[] arrayToString(ReadableArray array) {
+        if (array == null) {
+            return new String[0];
+        }
         int size = array.size();
         String[] strings = new String[size];
         for (int i = 0; i < size; i++) {
